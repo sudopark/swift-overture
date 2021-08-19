@@ -19,6 +19,17 @@ public func pipe<A, B, C>(
     }
 }
 
+public func pipe<B, C>(
+  _ f: @escaping () -> B,
+  _ g: @escaping (_ b: B) -> C
+  )
+  -> () -> C {
+
+    return {
+      g(f())
+    }
+}
+
 public func pipe<A, B, C, D>(
   _ f: @escaping (A) -> B,
   _ g: @escaping (B) -> C,
@@ -90,6 +101,17 @@ public func pipe<A, B, C>(
 
     return { (a: A) throws -> C in
       try g(f(a))
+    }
+}
+
+public func pipe<B, C>(
+  _ f: @escaping () throws -> B,
+  _ g: @escaping (_ b: B) throws -> C
+  )
+  -> () throws -> C {
+
+    return {
+      try g(f())
     }
 }
 
